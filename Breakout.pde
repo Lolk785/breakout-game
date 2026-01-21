@@ -2,6 +2,7 @@ class Breakout {
   private Ball ball;
   private Paddle paddle;
   private int blockColumns;
+  private int blockRows;
   private Block[] blocks;
   private Wall topWall;
   private Wall bottomWall;
@@ -20,16 +21,26 @@ class Breakout {
     bottomWall = new Wall(-100, height, width + 200, 100);
     // blocks
     blockColumns = width / blockWidth;
-    blocks = new Block[blockColumns];
-    for(int i = 0; i < blockColumns; i++) {
-      int blockX = i * blockWidth;
-      int blockY = 0;
-      blocks[i] = new Block(blockX, blockY, blockWidth, blockHeight);
+    blockRows = 3;
+    blocks = new Block[blockColumns * blockRows];
+    for(int r = 0 ; r < blockRows ; r++){
+      for(int c = 0 ; c < blockColumns ; c++){
+      int blockX = c * blockWidth;
+      int blockY = r * blockHeight;
+      blocks[c + r * blockColumns] = new Block(blockX, blockY, blockWidth, blockHeight);
+      }
     }
   }
   
   public void update(int mX, int mY){
     ball.update();
+    for(int n = 0; n < blocks.length ; n++){
+      if (ball.collisionCheck(blocks[n])) {
+      blocks[n].hit();
+      ball.bounceX();
+      ball.bounceY();
+    }
+  }
     if (ball.collisionCheck(leftWall)) {
     ball.bounceX();
     }

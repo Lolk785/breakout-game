@@ -16,6 +16,8 @@ class Ball extends GameObject {
     this.y = y;
     this.width = width;
     this.height = height;
+    this.speedX *= 6;
+    this.speedY *= 6;
   }
   
   public void bounceX(){
